@@ -1,75 +1,49 @@
-# Nuxt Minimal Starter
+# SharedArrayBuffer Issue in Nuxt Dev Mode
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+This repository demonstrates an issue where `SharedArrayBuffer` is not available in development mode (`npm run dev`), but works in production mode (`npm run build && node .output/server/index.mjs`).
 
-## Setup
+It is related to issue: https://github.com/Baroshem/nuxt-security/issues/608
 
-Make sure to install dependencies:
+## Issue Description
 
-```bash
-# npm
-npm install
+After updating to the latest versions of Nuxt and `nuxt-security`, `SharedArrayBuffer` is no longer accessible in development mode. Previously, with:
 
-# pnpm
-pnpm install
+- **Nuxt:** `3.12.3`
+- **nuxt-security:** `2.0.0-beta.0`
 
-# yarn
-yarn install
+`SharedArrayBuffer` was available when using `nuxt-security`. However, in the latest version, it is missing in dev mode while still working in production.
 
-# bun
-bun install
-```
+## Steps to Reproduce
 
-## Development Server
+1. Clone this repository:
+   ```sh
+   git clone https://github.com/your-username/your-repo.git
+   cd your-repo
+   ```
+2. Install dependencies:
+   ```sh
+   npm install
+   ```
+3. Run in development mode:
+   ```sh
+   npm run dev
+   ```
+   - Open the console and check for `SharedArrayBuffer`.
+   - Notice the error.
 
-Start the development server on `http://localhost:3000`:
+4. Build and run in production mode:
+   ```sh
+   npm run build
+   node .output/server/index.mjs
+   ```
+   - Check the console again.
+   - No error this time.
 
-```bash
-# npm
-npm run dev
+## Expected Behavior
 
-# pnpm
-pnpm dev
+`SharedArrayBuffer` should be available in development mode, just like in production, when using `nuxt-security`.
 
-# yarn
-yarn dev
+## Actual Behavior
 
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+- `SharedArrayBuffer` is **undefined** in development mode.
+- `SharedArrayBuffer` is **available** in production mode.
